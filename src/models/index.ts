@@ -1,15 +1,11 @@
-import { Sequelize } from 'sequelize';
-import path from 'path';
+import sequelize from './sequelize';
+import Book from './Book';
+import User from './User';
+import Loans from './Loan';
 
-// Inicializace SQLite databáze
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.resolve(__dirname, '../../database.sqlite'), // Soubor databáze
-});
+// Definice asociací (pokud jsou potřeba)
+// Book.belongsTo(User, { foreignKey: 'owner_id' });
+// User.hasMany(Book, { foreignKey: 'owner_id' });
+// atd.
 
-// Test připojení
-sequelize.authenticate()
-    .then(() => console.log('SQLite Database connected'))
-    .catch((err: Error) => console.error('Error connecting to SQLite database:', err));
-
-export default sequelize; 
+export { sequelize, Book, User, Loans };

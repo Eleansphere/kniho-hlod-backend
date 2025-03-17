@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from './index';
+import sequelize from './sequelize';
 
 export interface BookAttributes {
   id?: string;
@@ -40,3 +40,5 @@ Book.init(
     modelName: 'Book',
   }
 ); 
+
+export default Book;

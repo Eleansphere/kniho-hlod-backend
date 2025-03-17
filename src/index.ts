@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import sequelize from './models/index';
+import { sequelize } from './models';
 
 
 
