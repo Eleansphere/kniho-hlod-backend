@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "build": "tsc"
+    "build": "npm install --save-dev @types/node @types/express @types/body-parser @types/cors @types/sequelize @types/bcrypt @types/jsonwebtoken && tsc"
   },
   "keywords": [],
   "author": "",
