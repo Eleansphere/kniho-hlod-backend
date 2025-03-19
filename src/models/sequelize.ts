@@ -1,15 +1,14 @@
-import { Sequelize } from 'sequelize';
-import path from 'path';
+import { Sequelize } from "sequelize";
 
-// Inicializace SQLite databáze
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.resolve(__dirname, '../../database.sqlite'), // Soubor databáze
+const sequelize = new Sequelize(process.env.DATABASE_URL!, {
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // pro správné připojení na Renderu
+    },
+  },
+  logging: false, // Vypne logování SQL dotazů
 });
 
-// Test připojení
-sequelize.authenticate()
-    .then(() => console.log('SQLite Database connected'))
-    .catch((err: Error) => console.error('Error connecting to SQLite database:', err));
-
-export default sequelize; 
+export default sequelize;

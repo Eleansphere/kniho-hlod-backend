@@ -2,6 +2,7 @@
 dist/
 node_modules/
 database.sqlite
+dump.sql
 
 logs
 *.log
