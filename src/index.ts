@@ -35,6 +35,6 @@ app.get('/', (req: Request, res: Response) => {
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-sequelize.sync() // force: true pro vytvoření tabulek při každém spuštění
+sequelize.sync({force: true}) // force: true pro vytvoření tabulek při každém spuštění
 .then(() => console.log('SQLite Database synchronized'))
 .catch((err: Error) => console.error('Error synchronizing SQLite database:', err)); 
