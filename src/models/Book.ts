@@ -60,7 +60,6 @@ Book.init(
   {
     sequelize,
     modelName: 'Book',
-    tableName: 'books',
     timestamps: true
   }
 ); 
