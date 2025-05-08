@@ -3,20 +3,23 @@ import sequelize from './sequelize';
 
 export interface LoanAttributes {
   id: string;
-  book_id: string;
   borrower: string;
-  loan_date: Date;
-  return_date: Date;
-  owner_id: string;
+  loanDate: Date;
+  returnDate?: Date;
+  bookId: string;
+  ownerId: string;
 }
 
 class Loans extends Model<LoanAttributes> implements LoanAttributes {
   public id!: string;
-  public book_id!: string;
   public borrower!: string;
-  public loan_date!: Date;
-  public return_date!: Date;
-  public owner_id!: string;
+  public loanDate!: Date;
+  public returnDate?: Date;
+  public bookId!: string;
+  public ownerId!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 
@@ -24,34 +27,36 @@ Loans.init(
   {
     id: {
       type: DataTypes.STRING,
+      allowNull: false,
       primaryKey: true,
-
-
-    },
-    book_id: {
-      type: DataTypes.STRING,
-      allowNull: false
+      unique: true
     },
     borrower: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    loan_date: {
+    loanDate: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    return_date: {
+    returnDate: {
       type: DataTypes.DATE,
+      allowNull: true
+    },
+    bookId: {
+      type: DataTypes.STRING,
       allowNull: false
     },
-    owner_id: {
+    ownerId: {
       type: DataTypes.STRING,
       allowNull: false
     }
   },
   {
     sequelize,
-    modelName: 'Loans'
+    modelName: 'Loans',
+    tableName: 'loans',
+    timestamps: true
   }
 );
 

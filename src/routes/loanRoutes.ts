@@ -11,11 +11,11 @@ router.post('/', async (req: Request, res: Response) => {
         try {
         const loanData: LoanAttributes = {
             id: generateId('l'),
-            book_id: req.body.book_id,
             borrower: req.body.borrower,
-            loan_date: req.body.loan_date,
-            return_date: req.body.return_date,
-            owner_id: req.body.owner_id
+            loanDate: req.body.loanDate,
+            returnDate: req.body.returnDate,
+            bookId: req.body.bookId,
+            ownerId: req.body.ownerId
         };
         const loan = await Loan.create(loanData);
         res.status(201).json(loan);

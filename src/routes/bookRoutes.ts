@@ -14,7 +14,10 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
             id: generateId('b'),
             title: req.body.title,
             author: req.body.author,
-            owner_id: req.body.owner_id
+            description: req.body.description,
+            publicationYear: req.body.publicationYear,
+            isAvailable: req.body.isAvailable,
+            ownerId: req.body.ownerId
         };
 
         const book = await Book.create(bookData);

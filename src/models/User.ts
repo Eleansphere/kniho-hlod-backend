@@ -16,6 +16,9 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public password!: string;
   public email!: string;
   public role!: string;
+
+  public readonly  createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 
@@ -24,8 +27,9 @@ User.init(
   {
     id: {
       type: DataTypes.STRING,
+      allowNull: false,
       primaryKey: true,
-
+      unique: true
     },
     username: {
       type: DataTypes.STRING,
@@ -38,6 +42,7 @@ User.init(
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false
     },
     role: {
       type: DataTypes.STRING,   
@@ -47,6 +52,8 @@ User.init(
   {
     sequelize,
     modelName: 'User',
+    tableName: 'user',
+    timestamps: true
   }
 
 );
