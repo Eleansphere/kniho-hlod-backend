@@ -1,7 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { sequelize } from './models';
 
 
@@ -13,7 +14,6 @@ import bookRoutes from './routes/bookRoutes';
 import loanRoutes from './routes/loanRoutes';
 import authorizationRoutes from './routes/authorizationRoutes'
 
-dotenv.config();
 
 const app: Express = express();
 
