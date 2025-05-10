@@ -54,7 +54,7 @@ Loans.init(
   },
   {
     sequelize,
-    modelName: 'Loan',
+    modelName: 'loan',
     timestamps: true
   }
 );

@@ -45,7 +45,7 @@ Book.init(
       allowNull: true
     },
     publicationYear:{
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     isAvailable: {
@@ -59,7 +59,7 @@ Book.init(
   },
   {
     sequelize,
-    modelName: 'Book',
+    modelName: 'book',
     timestamps: true
   }
 ); 
