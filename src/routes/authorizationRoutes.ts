@@ -24,7 +24,7 @@ router.post('/login', async (req: Request, res: Response): Promise<Response> => 
             return res.status(401).json({ error: 'Neplatný email nebo heslo' });
         }
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ token, user});
+        return res.json({ token, email: user.email , role: user.role });
     } catch (error) {
         console.error('Chyba při přihlášení:', error);
         return res.status(500).json({ error: 'Interní chyba serveru' });
