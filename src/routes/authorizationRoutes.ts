@@ -23,7 +23,7 @@ router.post('/login', async (req: Request, res: Response): Promise<Response> => 
         if (!isMatch) {
             return res.status(401).json({ error: 'Neplatný email nebo heslo' });
         }
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1m' });
+        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30m' });
         return res.json({ token, email: user.email , role: user.role });
     } catch (error) {
         console.error('Chyba při přihlášení:', error);
