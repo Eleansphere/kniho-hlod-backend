@@ -8,6 +8,7 @@ export interface LoanAttributes {
   returnDate?: Date;
   bookId: string;
   ownerId: string;
+  isReturned?: boolean;
 }
 
 class Loans extends Model<LoanAttributes> implements LoanAttributes {
@@ -17,6 +18,7 @@ class Loans extends Model<LoanAttributes> implements LoanAttributes {
   public returnDate?: Date;
   public bookId!: string;
   public ownerId!: string;
+  public isReturned?: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -50,6 +52,11 @@ Loans.init(
     ownerId: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    isReturned: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     }
   },
   {

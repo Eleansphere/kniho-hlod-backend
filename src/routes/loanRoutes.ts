@@ -15,7 +15,8 @@ router.post('/', async (req: Request, res: Response) => {
             loanDate: req.body.loanDate,
             returnDate: req.body.returnDate,
             bookId: req.body.bookId,
-            ownerId: req.body.ownerId
+            ownerId: req.body.ownerId,
+            isReturned: req.body.isReturned
         };
         const loan = await Loan.create(loanData);
         res.status(201).json(loan);
