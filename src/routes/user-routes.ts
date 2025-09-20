@@ -1,5 +1,5 @@
-import User from '../models/User';
-import { generateId } from '../utils/generateId';
+import User from '../models/user';
+import { generateId } from '../utils/generate-id';
 import bcrypt from 'bcrypt';
 import { createCrudRouter } from '../utils/create-crud-router';
 

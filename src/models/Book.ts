@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from './sequelize';
+import sequelize from '../db/sequelize';
 
 export interface BookAttributes {
   id: string;

@@ -1,10 +1,10 @@
-import Loan from '../models/Loan';
+import { Book } from '../models/book';
+import { generateId } from '../utils/generate-id';
 import { createCrudRouter } from '../utils/create-crud-router';
-import { generateId } from '../utils/generateId';
 
 export default createCrudRouter({
-  model: Loan,
-  prefix: 'l',
+  model: Book,
+  prefix: 'b',
   generateId,
   log: true
 });
