@@ -1,8 +1,8 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db/sequelize';
+import { CoreEntity } from '../types/core-entity';
 
 export interface BookAttributes {
-  id: string;
   title: string;
   author?: string;
   description?: string;
@@ -11,7 +11,7 @@ export interface BookAttributes {
   ownerId: string;
 }
 
-export class Book extends Model<BookAttributes> implements BookAttributes {
+export class Book extends CoreEntity implements BookAttributes {
   public id!: string;
   public title!: string;
   public author!: string;
@@ -19,49 +19,17 @@ export class Book extends Model<BookAttributes> implements BookAttributes {
   public publicationYear!: number;
   public isAvailable!: boolean;
   public ownerId!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
-Book.init(
-  {
-    id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
-      unique: false
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    description:{
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    publicationYear:{
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    isAvailable: {
-      type:DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    ownerId: {
-      type:DataTypes.STRING,
-      allowNull: false
-    }
-  },
-  {
-    sequelize,
-    modelName: 'book',
-    timestamps: true
-  }
-); 
+Book.initModel({
+  title: { type: DataTypes.STRING, allowNull: false },
+  author: { type: DataTypes.STRING, allowNull: true },
+  description: { type: DataTypes.STRING, allowNull: true },
+  publicationYear: { type: DataTypes.INTEGER, allowNull: true },
+  isAvailable: { type: DataTypes.BOOLEAN, allowNull: false },
+}, {
+  modelName: 'book',
+  sequelize: new Sequelize
+});
 
-export default Book;
+export default Book
