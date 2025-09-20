@@ -31,4 +31,4 @@ export default createCrudRouter({
       return data;
     },
   }
-});
+}); 
