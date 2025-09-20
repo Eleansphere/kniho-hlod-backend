@@ -1,15 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { Model, ModelStatic } from 'sequelize';
-
-type GenericCrudOptions<T extends Model> = {
-  model: ModelStatic<T>;
-  prefix?: string;
-  generateId?: (prefix: string) => string;
-  log?: boolean; // jestli se má logovat
-};
+import { Model } from 'sequelize';
+import { GenericCrudOptions } from '../types/crud-router-types';
 
 export function createCrudRouter<T extends Model>(options: GenericCrudOptions<T>): Router {
-  const { model, prefix, generateId, log = true } = options;
+  const { model, prefix, generateId, log, hooks } = options;
   const router = Router();
 
   function logAction(action: string, payload?: unknown) {
@@ -20,11 +14,14 @@ export function createCrudRouter<T extends Model>(options: GenericCrudOptions<T>
   // CREATE
   router.post('/', async (req: Request, res: Response) => {
     try {
-      const data = { ...req.body };
+      let data = { ...req.body };
       if (generateId && prefix) {
         data.id = generateId(prefix);
       }
 
+      if (hooks?.beforeCreate){
+        data = await hooks.beforeCreate(data, req)
+      }
       logAction('CREATE request', data);
 
       const entity = await model.create(data);
@@ -74,7 +71,12 @@ export function createCrudRouter<T extends Model>(options: GenericCrudOptions<T>
         logAction('UPDATE not found', req.params.id);
         return res.status(404).json({ message: 'Not found' });
       }
-      await entity.update(req.body);
+      let data = {...req.body}
+
+      if(hooks?.beforeUpdate){
+        data = await hooks.beforeUpdate(data, req)
+      }
+      await entity.update(data);
       res.json(entity);
       logAction('UPDATE success', entity.toJSON());
     } catch (err) {
