@@ -1,4 +1,4 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { DataTypes} from 'sequelize';
 import sequelize from '../db/sequelize';
 import { CoreEntity } from '../types/core-entity';
 
@@ -29,7 +29,7 @@ Book.initModel({
   isAvailable: { type: DataTypes.BOOLEAN, allowNull: false },
 }, {
   modelName: 'book',
-  sequelize: new Sequelize
+  sequelize
 });
 
 export default Book
