@@ -27,6 +27,7 @@ Book.initModel({
   description: { type: DataTypes.STRING, allowNull: true },
   publicationYear: { type: DataTypes.INTEGER, allowNull: true },
   isAvailable: { type: DataTypes.BOOLEAN, allowNull: false },
+  ownerId:{ type: DataTypes.STRING, allowNull:false }
 }, {
   modelName: 'book',
   sequelize
