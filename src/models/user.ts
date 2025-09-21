@@ -1,60 +1,45 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
+import { CoreEntity } from '../types/core-entity';
 import sequelize from '../db/sequelize';
 
- export interface UserAttributes {
-  id: string;
+export interface UserAttributes {
   username: string;
   password: string;
   email: string;
   role: string;
 }
 
-
-class User extends Model<UserAttributes> implements UserAttributes {
-  public id!: string;
+class User extends CoreEntity implements UserAttributes {
   public username!: string;
   public password!: string;
   public email!: string;
   public role!: string;
-
-  public readonly  createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
-
-
-User.init(
+User.initModel(
   {
-    id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
-      unique: true
-    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     role: {
-      type: DataTypes.STRING,   
-      allowNull: false
-    }
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,
     modelName: 'user',
-    timestamps: true
   }
-
 );
 
 export default User;

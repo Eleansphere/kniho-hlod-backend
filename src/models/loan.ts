@@ -1,8 +1,8 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize';
+import { CoreEntity } from '../types/core-entity';
 
 export interface LoanAttributes {
-  id: string;
   borrower: string;
   loanDate: Date;
   returnDate?: Date;
@@ -11,53 +11,23 @@ export interface LoanAttributes {
   isReturned?: boolean;
 }
 
-class Loans extends Model<LoanAttributes> implements LoanAttributes {
-  public id!: string;
+class Loans extends CoreEntity implements LoanAttributes {
   public borrower!: string;
   public loanDate!: Date;
   public returnDate?: Date;
   public bookId!: string;
   public ownerId!: string;
   public isReturned?: boolean;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
-
-Loans.init(
+Loans.initModel(
   {
-    id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
-      unique: true
-    },
-    borrower: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    loanDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    returnDate: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    bookId: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    ownerId: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    isReturned: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    }
+    borrower: { type: DataTypes.STRING, allowNull: false },
+    loanDate: { type: DataTypes.DATE, allowNull: false },
+    returnDate: { type: DataTypes.DATE, allowNull: true },
+    bookId: { type: DataTypes.STRING, allowNull: false },
+    ownerId: { type: DataTypes.STRING, allowNull: false },
+    isReturned: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
   },
   {
     sequelize,
@@ -66,4 +36,4 @@ Loans.init(
   }
 );
 
-export default Loans; 
+export default Loans;

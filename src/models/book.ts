@@ -12,7 +12,6 @@ export interface BookAttributes {
 }
 
 export class Book extends CoreEntity implements BookAttributes {
-  public id!: string;
   public title!: string;
   public author!: string;
   public description!: string;
