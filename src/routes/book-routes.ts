@@ -6,5 +6,5 @@ export default createCrudRouter({
   model: Book,
   prefix: 'b',
   generateId,
-  log: true
+  log: true,
 });

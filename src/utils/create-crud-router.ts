@@ -19,8 +19,8 @@ export function createCrudRouter<T extends Model>(options: GenericCrudOptions<T>
         data.id = generateId(prefix);
       }
 
-      if (hooks?.beforeCreate){
-        data = await hooks.beforeCreate(data, req)
+      if (hooks?.beforeCreate) {
+        data = await hooks.beforeCreate(data, req);
       }
       logAction('CREATE request', data);
 
@@ -71,10 +71,10 @@ export function createCrudRouter<T extends Model>(options: GenericCrudOptions<T>
         logAction('UPDATE not found', req.params.id);
         return res.status(404).json({ message: 'Not found' });
       }
-      let data = {...req.body}
+      let data = { ...req.body };
 
-      if(hooks?.beforeUpdate){
-        data = await hooks.beforeUpdate(data, req)
+      if (hooks?.beforeUpdate) {
+        data = await hooks.beforeUpdate(data, req);
       }
       await entity.update(data);
       res.json(entity);

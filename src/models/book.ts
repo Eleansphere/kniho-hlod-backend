@@ -1,4 +1,4 @@
-import { DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize';
 import { CoreEntity } from '../types/core-entity';
 
@@ -20,16 +20,19 @@ export class Book extends CoreEntity implements BookAttributes {
   public ownerId!: string;
 }
 
-Book.initModel({
-  title: { type: DataTypes.STRING, allowNull: false },
-  author: { type: DataTypes.STRING, allowNull: true },
-  description: { type: DataTypes.STRING, allowNull: true },
-  publicationYear: { type: DataTypes.INTEGER, allowNull: true },
-  isAvailable: { type: DataTypes.BOOLEAN, allowNull: false },
-  ownerId:{ type: DataTypes.STRING, allowNull:false }
-}, {
-  modelName: 'book',
-  sequelize
-});
+Book.initModel(
+  {
+    title: { type: DataTypes.STRING, allowNull: false },
+    author: { type: DataTypes.STRING, allowNull: true },
+    description: { type: DataTypes.STRING, allowNull: true },
+    publicationYear: { type: DataTypes.INTEGER, allowNull: true },
+    isAvailable: { type: DataTypes.BOOLEAN, allowNull: false },
+    ownerId: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    modelName: 'book',
+    sequelize,
+  }
+);
 
-export default Book
+export default Book;

@@ -27,12 +27,12 @@ Loans.initModel(
     returnDate: { type: DataTypes.DATE, allowNull: true },
     bookId: { type: DataTypes.STRING, allowNull: false },
     ownerId: { type: DataTypes.STRING, allowNull: false },
-    isReturned: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
+    isReturned: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   },
   {
     sequelize,
     modelName: 'loan',
-    timestamps: true
+    timestamps: true,
   }
 );
 

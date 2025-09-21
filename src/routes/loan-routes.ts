@@ -6,5 +6,5 @@ export default createCrudRouter({
   model: Loan,
   prefix: 'l',
   generateId,
-  log: true
+  log: true,
 });
