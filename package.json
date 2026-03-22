@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "build": "tsc",
+    "build": "npm install && tsc",
     "format": "prettier --write src/"
   },
   "keywords": [],

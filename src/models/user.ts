@@ -1,4 +1,4 @@
-import { CoreEntity } from 'be-core';
+import { CoreEntity } from '@eleansphere/be-core';
 
 export interface UserAttributes {
   username: string;
