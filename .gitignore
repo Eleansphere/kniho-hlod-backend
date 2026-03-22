@@ -27,3 +27,5 @@ lerna-debug.log*
 
 # Generated Files
 components.d.ts
+.claude
+.vscode
