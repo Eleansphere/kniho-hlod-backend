@@ -4,21 +4,23 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Eleansphere/kniho-hlod-backend.git"
+    "url": "https://github.com/Kniho-hlod/kniho-hlod-backend.git"
   },
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "build": "npm install && tsc",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "core-update": "npm install @eleansphere/be-core@latest",
+    "service-update": "npm install @kniho-hlod/kniho-hlod-service@latest"
   },
   "keywords": [],
   "author": "Eleansphere",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@eleansphere/be-core": "^1.1.0",
-    "@eleansphere/kniho-hlod-service": "^1.3.0",
+    "@eleansphere/be-core": "^1.2.0",
+    "@kniho-hlod/kniho-hlod-service": "^1.6.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.6.1",
     "sequelize": "^6.37.6"
