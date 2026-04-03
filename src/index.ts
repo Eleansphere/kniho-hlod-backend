@@ -9,7 +9,11 @@ createApp({
   databaseUrl: process.env.DATABASE_URL!,
   jwtSecret: process.env.JWT_SECRET!,
   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-  modelConfigs: [bookConfig, loanConfig, profileImageConfig],
+  modelConfigs: [
+    { ...bookConfig, log: true },
+    { ...loanConfig, log: true },
+    { ...profileImageConfig, log: true },
+  ],
   plugins: [plugin],
   auth: { modelName: 'user' },
 });
