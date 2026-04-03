@@ -2,7 +2,6 @@ import { DataTypes, ProjectPlugin, createCrudRouter, createFileRouter, createVer
 import { Sequelize } from 'sequelize';
 import bcrypt from 'bcrypt';
 import User from './models/user';
-import { ProfileImage } from './models/profile-images';
 import { logger } from './logger';
 
 const SALT_ROUNDS = 10;
@@ -35,7 +34,7 @@ export const plugin: ProjectPlugin = {
     );
   },
 
-  registerRoutes(app) {
+  registerRoutes(app, _sequelize, models) {
     const verifyToken = createVerifyToken(process.env.JWT_SECRET!);
 
     // User CRUD — vlastní hook pro bcrypt
@@ -76,7 +75,7 @@ export const plugin: ProjectPlugin = {
     app.use('/api/profile-images', makeRequestLogger('/api/profile-images'));
     app.use(
       '/api/profile-images',
-      createFileRouter(ProfileImage, { fieldName: 'avatar', blobColumn: 'avatar' })
+      createFileRouter(models['profileImage'], { fieldName: 'avatar', blobColumn: 'avatar' })
     );
 
     // Pro chráněné routy: middleware: [verifyToken]
