@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { createApp } from '@eleansphere/be-core';
-import { bookEntity, loanEntity, profileImageEntity } from '@kniho-hlod/kniho-hlod-service';
+import { bookEntity, loanEntity, profileImageEntity, userEntity } from '@kniho-hlod/kniho-hlod-service';
 import { plugin } from './plugin';
 import { logger } from './logger';
 
@@ -25,6 +25,7 @@ createApp({
     { ...bookEntity.config },
     { ...loanEntity.config },
     { ...profileImageEntity.config },
+    { ...userEntity.config, skipAutoRoutes: true },
   ],
   plugins: [plugin],
   auth: { modelName: 'user' },

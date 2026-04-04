@@ -1,7 +1,5 @@
-import { DataTypes, ProjectPlugin, createCrudRouter, createFileRouter, createVerifyToken, generateId } from '@eleansphere/be-core';
-import { Sequelize } from 'sequelize';
+import { ProjectPlugin, createCrudRouter, createExtractUser, createFileRouter, generateId } from '@eleansphere/be-core';
 import bcrypt from 'bcrypt';
-import User from './models/user';
 import { logger } from './logger';
 
 const SALT_ROUNDS = 10;
@@ -21,27 +19,16 @@ function makeRequestLogger(prefix: string): (req: any, res: any, next: any) => v
 }
 
 export const plugin: ProjectPlugin = {
-  registerModels(sequelize: Sequelize) {
-    User.initModel(
-      sequelize,
-      {
-        username: { type: DataTypes.STRING, allowNull: false },
-        password: { type: DataTypes.STRING, allowNull: false },
-        email: { type: DataTypes.STRING, unique: true, allowNull: false },
-        role: { type: DataTypes.STRING, allowNull: false },
-      },
-      { modelName: 'user' }
-    );
-  },
-
   registerRoutes(app, _sequelize, models) {
-    const verifyToken = createVerifyToken(process.env.JWT_SECRET!);
+    const extractUser = createExtractUser(process.env.JWT_SECRET!);
+    const UserModel = models['user'];
 
     // User CRUD — vlastní hook pro bcrypt
     app.use(
       '/api/users',
+      extractUser,
       createCrudRouter({
-        model: User,
+        model: UserModel,
         prefix: 'u',
         generateId,
         log: true,
@@ -52,7 +39,7 @@ export const plugin: ProjectPlugin = {
               logger.warn('User creation rejected: missing required fields');
               throw new Error('Všechna pole jsou povinná');
             }
-            const existing = await User.findOne({ where: { email: data.email } });
+            const existing = await UserModel.findOne({ where: { email: data.email } });
             if (existing) {
               logger.warn('User creation rejected: email already exists', { email: data.email });
               throw new Error('Uživatel s tímto e-mailem už existuje');
@@ -72,13 +59,10 @@ export const plugin: ProjectPlugin = {
     );
 
     // File upload pro profile images
-    app.use('/api/profile-images', makeRequestLogger('/api/profile-images'));
+    app.use('/api/profile-images', extractUser, makeRequestLogger('/api/profile-images'));
     app.use(
       '/api/profile-images',
       createFileRouter(models['profileImage'], { fieldName: 'avatar', blobColumn: 'avatar' })
     );
-
-    // Pro chráněné routy: middleware: [verifyToken]
-    void verifyToken;
   },
 };
