@@ -61,12 +61,12 @@ export const plugin: ProjectPlugin = {
             return data;
           },
           beforeUpdate: async (data) => {
-            if (data.password) {
+            if (data.password && !data.password.startsWith('$2b$')) {
               data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
               logger.info('User password updated');
             }
             return data;
-          },
+          }
         },
       })
     );
