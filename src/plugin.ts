@@ -60,7 +60,7 @@ export const plugin: ProjectPlugin = {
 
     // File upload pro profile images
     // GET /:id/avatar is public (browser <img> can't send JWT headers)
-    app.use('/api/profile-images', (req, res, next) => {
+    app.use('/api/profile-images', (req: any, res: any, next: any) => {
       if (req.method === 'GET' && /\/[^/]+\/avatar$/.test(req.path)) return next();
       return extractUser(req, res, next);
     });
