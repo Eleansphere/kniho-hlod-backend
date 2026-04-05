@@ -59,7 +59,12 @@ export const plugin: ProjectPlugin = {
     );
 
     // File upload pro profile images
-    app.use('/api/profile-images', extractUser, makeRequestLogger('/api/profile-images'));
+    // GET /:id/avatar is public (browser <img> can't send JWT headers)
+    app.use('/api/profile-images', (req, res, next) => {
+      if (req.method === 'GET' && /\/[^/]+\/avatar$/.test(req.path)) return next();
+      return extractUser(req, res, next);
+    });
+    app.use('/api/profile-images', makeRequestLogger('/api/profile-images'));
     app.use(
       '/api/profile-images',
       createFileRouter(models['profileImage'], { fieldName: 'avatar', blobColumn: 'avatar' })
