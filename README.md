@@ -19,14 +19,28 @@ The app is built on the internal `@eleansphere/be-core` framework, which handles
 
 ```
 src/
-├── index.ts    # Entry point — calls createApp() with modelConfigs + plugin
-├── plugin.ts   # Custom plugin — User and ProfileImage routes with bcrypt hooks
-└── logger.ts   # Simple request/app logger
+├── index.ts                   App entry point — wires createApp() with models and plugin
+├── logger.ts                  Minimal structured logger
+├── plugin.ts                  Thin orchestrator — registers all route modules
+├── middleware/
+│   ├── error-handler.ts       Centralized Express error middleware (4-arg)
+│   └── request-logger.ts      Per-prefix request/response logger factory
+├── routes/
+│   ├── auth.ts                POST /api/auth/change-password
+│   ├── users.ts               CRUD /api/users with bcrypt hooks
+│   ├── system-notifications.ts GET /api/system-notifications/active + admin CRUD
+│   └── profile-images.ts      File upload/download /api/profile-images
+└── types/
+    └── express.d.ts           Module augmentation: adds req.user to Express.Request
 ```
 
 ### Model registration
 
 All four models (Book, Loan, ProfileImage, User) are defined in `@eleansphere/kniho-hlod-service` and registered via `modelConfigs` in `index.ts`. Book and Loan use auto-generated CRUD routes. User and ProfileImage use `skipAutoRoutes: true` — their routes are registered manually in `plugin.ts` to support custom bcrypt hooks and file upload handling.
+
+### Extending routes
+
+To add a new route group: create `src/routes/<resource>.ts` exporting a `register<Resource>Routes(app, model, extractUser)` function, then call it from `plugin.ts`.
 
 ### Authentication
 
@@ -45,6 +59,20 @@ All four models (Book, Loan, ProfileImage, User) are defined in `@eleansphere/kn
 | `POST/GET /api/profile-images` | JWT | File upload (avatar BLOB) |
 | `GET/POST/PUT/DELETE /api/books` | JWT + userScoped | Filtered by ownerId |
 | `GET/POST/PUT/DELETE /api/loans` | JWT + userScoped | Filtered by ownerId |
+
+### Error Response Format
+
+All errors return JSON:
+
+```json
+{ "error": "Not Found", "message": "User not found", "statusCode": 404 }
+```
+
+| Field | Description |
+|-------|-------------|
+| `error` | Short error name (e.g., `"Internal Server Error"`, `"Not Found"`) |
+| `message` | Human-readable detail. For 5xx: always `"An unexpected error occurred"` |
+| `statusCode` | HTTP status code repeated in the body |
 
 ## Local Development
 
