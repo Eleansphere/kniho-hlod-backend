@@ -3,6 +3,7 @@ import { Application, Request, Response, NextFunction, RequestHandler } from 'ex
 import { Model, Op } from 'sequelize';
 import { createCrudRouter, generateId } from '@eleansphere/be-core';
 import { makeRequestLogger } from '../middleware/request-logger';
+import { logger } from '../logger';
 
 type ModelClass = typeof Model;
 
@@ -26,6 +27,7 @@ export function registerSystemNotificationRoutes(
         });
         res.json(records.map((r) => r.toJSON()));
       } catch (err) {
+        logger.error('Failed to fetch active system notifications', { err });
         next(err);
       }
     }
