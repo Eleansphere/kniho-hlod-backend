@@ -1,18 +1,16 @@
 // src/routes/users.ts
 import { Application, RequestHandler } from 'express';
-import { Model } from 'sequelize';
+import { ModelStatic, Model } from 'sequelize';
 import { createCrudRouter, generateId } from '@eleansphere/be-core';
 import bcrypt from 'bcrypt';
 import { logger } from '../logger';
 import { makeRequestLogger } from '../middleware/request-logger';
 
-type ModelClass = typeof Model;
-
 const SALT_ROUNDS = 10;
 
 export function registerUserRoutes(
   app: Application,
-  UserModel: ModelClass,
+  UserModel: ModelStatic<Model>,
   extractUser: RequestHandler
 ): void {
   app.use(

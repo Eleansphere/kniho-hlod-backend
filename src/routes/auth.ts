@@ -1,16 +1,14 @@
 // src/routes/auth.ts
 import { Application, Request, Response, NextFunction, RequestHandler } from 'express';
-import { Model } from 'sequelize';
+import { ModelStatic, Model } from 'sequelize';
 import bcrypt from 'bcrypt';
 import { logger } from '../logger';
-
-type ModelClass = typeof Model;
 
 const SALT_ROUNDS = 10;
 
 export function registerAuthRoutes(
   app: Application,
-  UserModel: ModelClass,
+  UserModel: ModelStatic<Model>,
   extractUser: RequestHandler
 ): void {
   app.post(

@@ -1,15 +1,13 @@
 // src/routes/system-notifications.ts
 import { Application, Request, Response, NextFunction, RequestHandler } from 'express';
-import { Model, Op } from 'sequelize';
+import { ModelStatic, Model, Op } from 'sequelize';
 import { createCrudRouter, generateId } from '@eleansphere/be-core';
 import { makeRequestLogger } from '../middleware/request-logger';
 import { logger } from '../logger';
 
-type ModelClass = typeof Model;
-
 export function registerSystemNotificationRoutes(
   app: Application,
-  SystemNotificationModel: ModelClass,
+  SystemNotificationModel: ModelStatic<Model>,
   extractUser: RequestHandler
 ): void {
   // GET /active is public — no JWT required

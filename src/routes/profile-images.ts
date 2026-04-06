@@ -1,14 +1,12 @@
 // src/routes/profile-images.ts
 import { Application, Request, Response, NextFunction, RequestHandler } from 'express';
-import { Model } from 'sequelize';
+import { ModelStatic, Model } from 'sequelize';
 import { createFileRouter } from '@eleansphere/be-core';
 import { makeRequestLogger } from '../middleware/request-logger';
 
-type ModelClass = typeof Model;
-
 export function registerProfileImageRoutes(
   app: Application,
-  ProfileImageModel: ModelClass,
+  ProfileImageModel: ModelStatic<Model>,
   extractUser: RequestHandler
 ): void {
   // GET /:id/avatar is public — browser <img> tags can't send JWT headers
