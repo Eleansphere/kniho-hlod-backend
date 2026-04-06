@@ -2,11 +2,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { createApp } from '@eleansphere/be-core';
-import { bookEntity, loanEntity, profileImageEntity, systemNotificationEntity, userEntity } from '@kniho-hlod/kniho-hlod-service';
+import {
+  bookEntity,
+  loanEntity,
+  profileImageEntity,
+  systemNotificationEntity,
+  userEntity,
+} from '@kniho-hlod/kniho-hlod-service';
+import { Request, Response, NextFunction } from 'express';
 import { plugin } from './plugin';
 import { logger } from './logger';
 
-function requestLogger(req: any, res: any, next: any): void {
+function requestLogger(req: Request, res: Response, next: NextFunction): void {
   const start = Date.now();
   res.on('finish', () => {
     const status: number = res.statusCode;
