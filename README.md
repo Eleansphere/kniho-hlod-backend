@@ -15,7 +15,7 @@ REST API backend for the **kniho-hlod** book lending application.
 
 ## Architecture
 
-The app is built on the internal `@eleansphere/be-core` framework, which handles Express setup, database connection, CRUD routing, file uploads, and JWT authentication. All domain models and DTO types come from `@eleansphere/kniho-hlod-service`.
+The app is built on the internal `@eleansphere/be-core` framework, which handles Express setup, database connection, CRUD routing, file uploads, JWT authentication, and centralized error handling. All domain models and DTO types come from `@eleansphere/kniho-hlod-service`.
 
 ```
 src/
@@ -23,7 +23,6 @@ src/
 ├── logger.ts                  Minimal structured logger
 ├── plugin.ts                  Thin orchestrator — registers all route modules
 ├── middleware/
-│   ├── error-handler.ts       Centralized Express error middleware (4-arg)
 │   └── request-logger.ts      Per-prefix request/response logger factory
 ├── routes/
 │   ├── auth.ts                POST /api/auth/change-password
@@ -62,7 +61,7 @@ To add a new route group: create `src/routes/<resource>.ts` exporting a `registe
 
 ### Error Response Format
 
-All errors return JSON:
+Error handling is provided by `be-core`'s built-in `defaultErrorHandler`, registered automatically after all routes. All errors return JSON:
 
 ```json
 { "error": "Not Found", "message": "User not found", "statusCode": 404 }
