@@ -56,6 +56,29 @@ export const plugin: ProjectPlugin = {
     );
     const UserModel = models['user'];
 
+    // Change password — authenticated user changes their own password
+    app.post('/api/auth/change-password', extractUser, async (req: any, res: any) => {
+      try {
+        const { currentPassword, newPassword } = req.body;
+        if (!currentPassword || !newPassword) {
+          return res.status(400).json({ error: 'Chybí heslo' });
+        }
+        const user = await UserModel.findByPk(req.user.id);
+        if (!user) return res.status(404).json({ error: 'Uživatel nenalezen' });
+
+        const match = await bcrypt.compare(currentPassword, user.get('password') as string);
+        if (!match) return res.status(401).json({ error: 'Nesprávné aktuální heslo' });
+
+        const hashed = await bcrypt.hash(newPassword, SALT_ROUNDS);
+        await user.update({ password: hashed });
+        logger.info('Password changed', { userId: req.user.id });
+        return res.json({ message: 'Heslo bylo změněno' });
+      } catch (err: any) {
+        logger.error('Change password error', { err });
+        return res.status(500).json({ error: 'Interní chyba serveru' });
+      }
+    });
+
     // User CRUD — vlastní hook pro bcrypt
     app.use(
       '/api/users',
