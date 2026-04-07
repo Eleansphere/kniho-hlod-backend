@@ -9,25 +9,14 @@ import {
   systemNotificationEntity,
   userEntity,
 } from '@kniho-hlod/kniho-hlod-service';
-import { Request, Response, NextFunction } from 'express';
 import { plugin } from './plugin';
-import { logger } from './logger';
-
-function requestLogger(req: Request, res: Response, next: NextFunction): void {
-  const start = Date.now();
-  res.on('finish', () => {
-    const status: number = res.statusCode;
-    const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info';
-    logger[level](`${req.method} ${req.path}`, { status, ms: Date.now() - start });
-  });
-  next();
-}
+import { makeRequestLogger } from './middleware/request-logger';
 
 createApp({
   databaseUrl: process.env.DATABASE_URL!,
   jwtSecret: process.env.JWT_SECRET!,
   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-  middleware: [requestLogger],
+  middleware: [makeRequestLogger('')],
   modelConfigs: [
     { ...bookEntity.config },
     { ...loanEntity.config },
