@@ -1,7 +1,7 @@
-// src/routes/auth.ts
 import { Application, Request, Response, NextFunction, RequestHandler } from 'express';
 import { ModelStatic, Model } from 'sequelize';
 import bcrypt from 'bcrypt';
+import { generateId, HttpError } from '@eleansphere/be-core';
 import { logger } from '../logger';
 
 const SALT_ROUNDS = 10;
@@ -11,6 +11,33 @@ export function registerAuthRoutes(
   UserModel: ModelStatic<Model>,
   extractUser: RequestHandler
 ): void {
+  app.post('/api/auth/register', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { username, email, password } = req.body as {
+        username: string;
+        email: string;
+        password: string;
+      };
+
+      if (!username || !email || !password) {
+        throw new HttpError(400, 'All fields are required');
+      }
+
+      const existing = await UserModel.findOne({ where: { email } });
+      if (existing) {
+        throw new HttpError(409, 'A user with this email already exists');
+      }
+
+      const hashed = await bcrypt.hash(password, SALT_ROUNDS);
+      await UserModel.create({ id: generateId('u'), username, email, password: hashed, role: 'user' });
+
+      logger.info({ email }, 'User registered');
+      res.status(201).json({ message: 'Registration successful' });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post(
     '/api/auth/change-password',
     extractUser,
