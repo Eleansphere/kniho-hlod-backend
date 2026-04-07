@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../logger';
 
-export function makeRequestLogger(prefix: string): (req: Request, res: Response, next: NextFunction) => void {
+export function makeRequestLogger(
+  prefix: string
+): (req: Request, res: Response, next: NextFunction) => void {
   return (req, res, next) => {
     const start = Date.now();
     res.on('finish', () => {
