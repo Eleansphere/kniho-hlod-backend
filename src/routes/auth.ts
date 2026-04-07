@@ -48,7 +48,7 @@ export function registerAuthRoutes(
 
         const hashed = await bcrypt.hash(newPassword, SALT_ROUNDS);
         await user.update({ password: hashed });
-        logger.info('Password changed', { userId: req.user!.id });
+        logger.info({ userId: req.user!.id }, 'Password changed');
         res.json({ message: 'Password changed successfully' });
       } catch (err) {
         next(err);

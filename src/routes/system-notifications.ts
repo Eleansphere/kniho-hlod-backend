@@ -25,7 +25,7 @@ export function registerSystemNotificationRoutes(
         });
         res.json(records.map((r) => r.toJSON()));
       } catch (err) {
-        logger.error('Failed to fetch active system notifications', { err });
+        logger.error({ err }, 'Failed to fetch active system notifications');
         next(err);
       }
     }

@@ -30,7 +30,7 @@ export function registerUserRoutes(
           }
           const existing = await UserModel.findOne({ where: { email: data.email } });
           if (existing) {
-            logger.warn('User creation rejected: email already exists', { email: data.email });
+            logger.warn({ email: data.email }, 'User creation rejected: email already exists');
             throw new HttpError(409, 'A user with this email already exists');
           }
           data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
